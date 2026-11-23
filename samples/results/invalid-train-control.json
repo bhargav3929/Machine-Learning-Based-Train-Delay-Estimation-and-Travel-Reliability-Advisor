@@ -1,0 +1,12 @@
+{
+ "kind": "rejection",
+ "input": {
+  "query": "99999 Starship Express"
+ },
+ "http_status": 400,
+ "code": "BAD_INPUT",
+ "error": "Couldn't recognize that train number or station corridor (99999 isn't in the bundled timetable). Try a listed train, or enter a corridor like 'Origin -> Destination'.",
+ "quota_consumed": false,
+ "delay_numbers_returned": false,
+ "generated_at": "2026-11-23T10:53:19Z"
+}

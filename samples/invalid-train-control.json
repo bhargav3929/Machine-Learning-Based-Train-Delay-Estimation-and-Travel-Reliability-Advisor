@@ -1,0 +1,11 @@
+{
+  "id": "invalid-train-control",
+  "title": "Invalid Train Control (99999 Starship Express — Rejection Test)",
+  "input_text": "99999 Starship Express",
+  "connection_type": "Standard Point-to-Point Travel",
+  "planned_buffer_min": 60,
+  "travel_date": "2026-12-12",
+  "expect_error": true,
+  "blurb": "A train that doesn't exist: it must be rejected, with no invented delay numbers and no run used.",
+  "order": 4
+}

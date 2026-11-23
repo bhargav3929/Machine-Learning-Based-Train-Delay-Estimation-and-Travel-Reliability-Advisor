@@ -1,0 +1,10 @@
+{
+  "id": "mumbai-ahmedabad-shatabdi",
+  "title": "12009 Mumbai Central - Ahmedabad Shatabdi Express",
+  "input_text": "12009 Mumbai Central - Ahmedabad Shatabdi Express (Punctuality Control)",
+  "connection_type": "Standard Point-to-Point Travel",
+  "planned_buffer_min": 60,
+  "travel_date": "2026-12-05",
+  "blurb": "High-priority Western Railway corridor: expect a low-delay baseline.",
+  "order": 3
+}

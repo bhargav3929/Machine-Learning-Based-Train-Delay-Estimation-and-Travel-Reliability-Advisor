@@ -1,0 +1,557 @@
+{
+ "kind": "predict",
+ "input": {
+  "query": "12301 Howrah - New Delhi Rajdhani Express (via Mughalsarai / Kanpur)",
+  "travel_date": "2026-12-27",
+  "connection_type": "Connecting Flight at Destination",
+  "planned_buffer_min": 120
+ },
+ "corridor": {
+  "mode": "train",
+  "train": {
+   "number": "12301",
+   "name": "Howrah Rajdhani Express",
+   "tier": 1,
+   "tier_label": "Tier 1 - Premium (Rajdhani / Shatabdi)",
+   "bias": 1.25,
+   "turnaround": 0.4,
+   "single_line": 0.0
+  },
+  "distance_km": 1447,
+  "stations": [
+   {
+    "code": "HWH",
+    "name": "Howrah Jn",
+    "lat": 22.5832,
+    "lon": 88.3426,
+    "region": "east",
+    "congestion": 0.85,
+    "km": 0,
+    "source": "bundled",
+    "stress_live": 0.013,
+    "stress_season": 0.32,
+    "weather": {
+     "temp_c": 27.8,
+     "precip_mm": 1.3,
+     "wind_kmh": 4.0,
+     "visibility_km": 6.46,
+     "humidity_pct": 71.0,
+     "weather_code": 3,
+     "current_temp_c": 27.8,
+     "current_precip_mm": 0.0,
+     "current_wind_kmh": 4.0
+    },
+    "cum_delay_p50": 0.0,
+    "cum_delay_p90": 0.0,
+    "hotspot": true
+   },
+   {
+    "code": "ASN",
+    "name": "Asansol Jn",
+    "lat": 23.685,
+    "lon": 86.975,
+    "region": "east",
+    "congestion": 0.55,
+    "km": 210,
+    "source": "bundled",
+    "stress_live": 0.004,
+    "stress_season": 0.32,
+    "weather": {
+     "temp_c": 26.2,
+     "precip_mm": 0.4,
+     "wind_kmh": 7.4,
+     "visibility_km": 6.54,
+     "humidity_pct": 67.0,
+     "weather_code": 0,
+     "current_temp_c": 26.2,
+     "current_precip_mm": 0.0,
+     "current_wind_kmh": 7.4
+    },
+    "cum_delay_p50": 2.7,
+    "cum_delay_p90": 7.4,
+    "hotspot": false
+   },
+   {
+    "code": "DHN",
+    "name": "Dhanbad Jn",
+    "lat": 23.7957,
+    "lon": 86.4304,
+    "region": "east",
+    "congestion": 0.6,
+    "km": 260,
+    "source": "bundled",
+    "stress_live": 0.001,
+    "stress_season": 0.32,
+    "weather": {
+     "temp_c": 25.3,
+     "precip_mm": 0.1,
+     "wind_kmh": 8.4,
+     "visibility_km": 6.94,
+     "humidity_pct": 68.0,
+     "weather_code": 0,
+     "current_temp_c": 25.3,
+     "current_precip_mm": 0.0,
+     "current_wind_kmh": 8.4
+    },
+    "cum_delay_p50": 3.3,
+    "cum_delay_p90": 9.2,
+    "hotspot": false
+   },
+   {
+    "code": "GAYA",
+    "name": "Gaya Jn",
+    "lat": 24.7955,
+    "lon": 85.0002,
+    "region": "gangetic",
+    "congestion": 0.55,
+    "km": 458,
+    "source": "bundled",
+    "stress_live": 0.0,
+    "stress_season": 0.657,
+    "weather": {
+     "temp_c": 24.7,
+     "precip_mm": 0.0,
+     "wind_kmh": 7.9,
+     "visibility_km": 7.04,
+     "humidity_pct": 62.0,
+     "weather_code": 0,
+     "current_temp_c": 24.7,
+     "current_precip_mm": 0.0,
+     "current_wind_kmh": 7.9
+    },
+    "cum_delay_p50": 6.4,
+    "cum_delay_p90": 17.8,
+    "hotspot": false
+   },
+   {
+    "code": "DDU",
+    "name": "Pt Deen Dayal Upadhyaya Jn (Mughalsarai)",
+    "lat": 25.282,
+    "lon": 83.119,
+    "region": "gangetic",
+    "congestion": 0.9,
+    "km": 650,
+    "source": "bundled",
+    "stress_live": 0.0,
+    "stress_season": 0.657,
+    "weather": {
+     "temp_c": 24.8,
+     "precip_mm": 0.0,
+     "wind_kmh": 6.6,
+     "visibility_km": 7.98,
+     "humidity_pct": 58.0,
+     "weather_code": 0,
+     "current_temp_c": 24.8,
+     "current_precip_mm": 0.0,
+     "current_wind_kmh": 6.6
+    },
+    "cum_delay_p50": 10.0,
+    "cum_delay_p90": 27.8,
+    "hotspot": true
+   },
+   {
+    "code": "PRYJ",
+    "name": "Prayagraj Jn",
+    "lat": 25.444,
+    "lon": 81.833,
+    "region": "gangetic",
+    "congestion": 0.8,
+    "km": 792,
+    "source": "bundled",
+    "stress_live": 0.0,
+    "stress_season": 0.657,
+    "weather": {
+     "temp_c": 24.5,
+     "precip_mm": 0.0,
+     "wind_kmh": 9.4,
+     "visibility_km": 8.06,
+     "humidity_pct": 53.0,
+     "weather_code": 0,
+     "current_temp_c": 24.5,
+     "current_precip_mm": 0.0,
+     "current_wind_kmh": 9.4
+    },
+    "cum_delay_p50": 12.6,
+    "cum_delay_p90": 34.9,
+    "hotspot": true
+   },
+   {
+    "code": "CNB",
+    "name": "Kanpur Central",
+    "lat": 26.453,
+    "lon": 80.351,
+    "region": "gangetic",
+    "congestion": 0.88,
+    "km": 985,
+    "source": "bundled",
+    "stress_live": 0.0,
+    "stress_season": 0.657,
+    "weather": {
+     "temp_c": 24.6,
+     "precip_mm": 0.0,
+     "wind_kmh": 6.9,
+     "visibility_km": 8.2,
+     "humidity_pct": 50.0,
+     "weather_code": 0,
+     "current_temp_c": 24.6,
+     "current_precip_mm": 0.0,
+     "current_wind_kmh": 6.9
+    },
+    "cum_delay_p50": 16.2,
+    "cum_delay_p90": 44.9,
+    "hotspot": true
+   },
+   {
+    "code": "TDL",
+    "name": "Tundla Jn",
+    "lat": 27.215,
+    "lon": 78.237,
+    "region": "gangetic",
+    "congestion": 0.8,
+    "km": 1240,
+    "source": "bundled",
+    "stress_live": 0.0,
+    "stress_season": 0.657,
+    "weather": {
+     "temp_c": 23.4,
+     "precip_mm": 0.0,
+     "wind_kmh": 8.5,
+     "visibility_km": 8.76,
+     "humidity_pct": 48.0,
+     "weather_code": 0,
+     "current_temp_c": 23.4,
+     "current_precip_mm": 0.0,
+     "current_wind_kmh": 8.5
+    },
+    "cum_delay_p50": 20.8,
+    "cum_delay_p90": 57.5,
+    "hotspot": true
+   },
+   {
+    "code": "NDLS",
+    "name": "New Delhi",
+    "lat": 28.6428,
+    "lon": 77.2197,
+    "region": "northwest",
+    "congestion": 0.95,
+    "km": 1447,
+    "source": "bundled",
+    "stress_live": 0.0,
+    "stress_season": 0.626,
+    "weather": {
+     "temp_c": 22.8,
+     "precip_mm": 0.0,
+     "wind_kmh": 5.1,
+     "visibility_km": 7.96,
+     "humidity_pct": 54.0,
+     "weather_code": 0,
+     "current_temp_c": 22.8,
+     "current_precip_mm": 0.0,
+     "current_wind_kmh": 5.1
+    },
+    "cum_delay_p50": 24.7,
+    "cum_delay_p90": 68.5,
+    "hotspot": true
+   }
+  ],
+  "bottleneck": {
+   "index": 4,
+   "name": "Pt Deen Dayal Upadhyaya Jn (Mughalsarai)",
+   "congestion": 0.9
+  },
+  "schedule": {
+   "dep": "16:55",
+   "run_min": 1020,
+   "arr_sched": {
+    "time": "09:55",
+    "day": 1
+   },
+   "arr_p50": {
+    "time": "10:19",
+    "day": 1
+   },
+   "arr_p90": {
+    "time": "11:03",
+    "day": 1
+   },
+   "indicative": true
+  }
+ },
+ "metrics": {
+  "reliability_pct": 26,
+  "p50_min": 25,
+  "p90_min": 69,
+  "mean_min": 34,
+  "on_time_threshold_min": 15,
+  "recommended_buffer_min": 180,
+  "planned_buffer_min": 120,
+  "min_transfer_min": 75,
+  "target_confidence_pct": 95,
+  "p_make_planned_pct": 77,
+  "verdict": "tight"
+ },
+ "factors": [
+  {
+   "id": "distance",
+   "label": "Route Distance & Rake Turnaround",
+   "minutes": 12.4,
+   "share_pct": 50.0
+  },
+  {
+   "id": "congestion",
+   "label": "Corridor Junction Congestion",
+   "minutes": 11.3,
+   "share_pct": 45.8
+  },
+  {
+   "id": "season",
+   "label": "Seasonal Fog / Monsoon Vulnerability",
+   "minutes": 9.3,
+   "share_pct": 37.5
+  },
+  {
+   "id": "priority",
+   "label": "Train Priority Tier & Punctuality History",
+   "minutes": -8.2,
+   "share_pct": -33.3
+  },
+  {
+   "id": "weather",
+   "label": "Live Weather & Visibility Impact",
+   "minutes": 0.0,
+   "share_pct": 0.0
+  }
+ ],
+ "buffer_curve": [
+  {
+   "buffer": 0,
+   "p_make": 0.0
+  },
+  {
+   "buffer": 15,
+   "p_make": 0.0
+  },
+  {
+   "buffer": 30,
+   "p_make": 0.0
+  },
+  {
+   "buffer": 45,
+   "p_make": 0.0
+  },
+  {
+   "buffer": 60,
+   "p_make": 0.0
+  },
+  {
+   "buffer": 75,
+   "p_make": 0.0
+  },
+  {
+   "buffer": 90,
+   "p_make": 0.2645
+  },
+  {
+   "buffer": 105,
+   "p_make": 0.5958
+  },
+  {
+   "buffer": 120,
+   "p_make": 0.7742
+  },
+  {
+   "buffer": 135,
+   "p_make": 0.8675
+  },
+  {
+   "buffer": 150,
+   "p_make": 0.9186
+  },
+  {
+   "buffer": 165,
+   "p_make": 0.9479
+  },
+  {
+   "buffer": 180,
+   "p_make": 0.9655
+  },
+  {
+   "buffer": 195,
+   "p_make": 0.9765
+  },
+  {
+   "buffer": 210,
+   "p_make": 0.9836
+  },
+  {
+   "buffer": 225,
+   "p_make": 0.9883
+  },
+  {
+   "buffer": 240,
+   "p_make": 0.9915
+  },
+  {
+   "buffer": 255,
+   "p_make": 0.9937
+  },
+  {
+   "buffer": 270,
+   "p_make": 0.9953
+  },
+  {
+   "buffer": 285,
+   "p_make": 0.9964
+  },
+  {
+   "buffer": 300,
+   "p_make": 0.9973
+  },
+  {
+   "buffer": 315,
+   "p_make": 0.9979
+  },
+  {
+   "buffer": 330,
+   "p_make": 0.9983
+  },
+  {
+   "buffer": 345,
+   "p_make": 0.9987
+  },
+  {
+   "buffer": 360,
+   "p_make": 0.9989
+  },
+  {
+   "buffer": 375,
+   "p_make": 0.9992
+  },
+  {
+   "buffer": 390,
+   "p_make": 0.9993
+  },
+  {
+   "buffer": 405,
+   "p_make": 0.9994
+  },
+  {
+   "buffer": 420,
+   "p_make": 0.9995
+  }
+ ],
+ "weather": {
+  "source": "open-meteo",
+  "basis": "live current conditions (travel date is beyond the 16-day forecast window)",
+  "live_weight": 0.35,
+  "forecast_window": false,
+  "fetched_at": "2026-11-23T10:53:15+00:00",
+  "request_url": "https://api.open-meteo.com/v1/forecast?latitude=22.5832%2C23.6850%2C23.7957%2C24.7955%2C25.2820%2C25.4440%2C26.4530%2C27.2150%2C28.6428&longitude=88.3426%2C86.9750%2C86.4304%2C85.0002%2C83.1190%2C81.8330%2C80.3510%2C78.2370%2C77.2197&current=temperature_2m%2Crelative_humidity_2m%2Cprecipitation%2Cwind_speed_10m%2Cvisibility%2Cweather_code&hourly=visibility&daily=precipitation_sum%2Ctemperature_2m_max%2Ctemperature_2m_min%2Cwind_speed_10m_max&forecast_days=16&timezone=Asia%2FKolkata&wind_speed_unit=kmh"
+ },
+ "audit": {
+  "breakdown": [
+   {
+    "step": "Base delay",
+    "input": "constant",
+    "x": null,
+    "formula": "2.0",
+    "minutes": 2.0
+   },
+   {
+    "step": "Distance",
+    "input": "distance_km / 2000",
+    "x": 0.724,
+    "formula": "ladder(x, scale 11, power 0.9)",
+    "minutes": 7.98
+   },
+   {
+    "step": "Rake turnaround",
+    "input": "turnaround_risk",
+    "x": 0.4,
+    "formula": "ladder(x, scale 6, power 1.0)",
+    "minutes": 2.4
+   },
+   {
+    "step": "Junction congestion",
+    "input": "congestion_index",
+    "x": 0.858,
+    "formula": "ladder(x, scale 14, power 2.0)",
+    "minutes": 11.34
+   },
+   {
+    "step": "Live weather",
+    "input": "live_route_stress",
+    "x": 0.007,
+    "formula": "0.35 * ladder(x, scale 34, power 1.3)",
+    "minutes": 0.0
+   },
+   {
+    "step": "Seasonal prior",
+    "input": "seasonal_route_stress",
+    "x": 0.593,
+    "formula": "0.6 * ladder(x, scale 30, power 1.3)",
+    "minutes": 9.27
+   },
+   {
+    "step": "Raw delay S",
+    "input": "sum of the above",
+    "x": null,
+    "formula": "sum",
+    "minutes": 32.99
+   },
+   {
+    "step": "Median P50",
+    "input": "tier_multiplier * train_bias",
+    "x": 0.75,
+    "formula": "max(1, S * multiplier)",
+    "minutes": 24.74
+   }
+  ],
+  "formula": [
+   "raw = distance_turnaround + congestion + w_live*weather + 0.6*season  (each a 10-stump boosted ladder)",
+   "P50 = max(1, raw * tier_multiplier * train_bias)",
+   "sigma = 0.50 + 0.35*max(live_stress, 0.8*season_stress) + 0.15*congestion_index (+0.05 for tier 3+)",
+   "P90 = P50 * exp(1.2816 * sigma);  on-time = LogNormalCDF(15 min);  P(make) = LogNormalCDF(buffer - min_transfer)",
+   "recommended buffer = min_transfer + delay quantile at the target confidence, rounded up to 15 min"
+  ],
+  "inputs": {
+   "distance_km": 1447,
+   "month": 12,
+   "congestion_index": 0.858,
+   "live_route_stress": 0.007,
+   "seasonal_route_stress": 0.593,
+   "live_weight": 0.35,
+   "raw_delay_min": 33.0,
+   "tier": 1,
+   "tier_multiplier": 0.6,
+   "train_bias": 1.25,
+   "turnaround_risk": 0.4,
+   "single_line_share": 0.0,
+   "sigma": 0.795,
+   "min_transfer_min": 75,
+   "target_confidence": 0.95
+  },
+  "notes": [
+   "Station coordinates and congestion/seasonal priors are bundled planning estimates.",
+   "Timetable times are indicative; check the official railway timetable before travel."
+  ]
+ },
+ "advisory": {
+  "summary": "The Howrah Rajdhani Express on 2026-12-27 shows low reliability with only 26% on\u2011time performance and a 90th\u2011percentile delay of 69\u202fminutes. The main risk is the high congestion (0.9) at Pt Deen Dayal Upadhyaya Jn (Mughalsarai), compounded by corridor junction congestion and seasonal fog/monsoon vulnerability factors.",
+  "buffer_recommendation": "The planned 120\u2011minute buffer is below the model\u2011recommended 180\u202fminutes; increasing the buffer to at least 180\u202fminutes aligns with the 77% chance of making the connecting flight and reduces the tight\u2011connection verdict.",
+  "backup_strategy": [
+   "Book an earlier departure or a preceding Rajdhani service to add slack before the bottleneck.",
+   "Identify an alternate train (e.g., Shatabdi or a faster express) that departs from Howrah with a later arrival window at New Delhi.",
+   "Arrange a flexible flight ticket that allows a later check\u2011in or a standby option in case of delay.",
+   "Monitor real\u2011time congestion at Mughalsarai and New Delhi stations via the Indian Railways app."
+  ],
+  "watch_items": [
+   "Very high congestion at Pt Deen Dayal Upadhyaya Jn (0.9) \u2013 the primary bottleneck.",
+   "Elevated congestion at Kanpur Central (0.88) and New Delhi (0.95) which could add further delay.",
+   "Seasonal fog/monsoon vulnerability factor (9.3\u202fmin) despite current clear weather; visibility could drop unexpectedly."
+  ],
+  "source": "groq",
+  "model": "openai/gpt-oss-120b"
+ },
+ "generated_at": "2026-11-23T10:53:17Z"
+}

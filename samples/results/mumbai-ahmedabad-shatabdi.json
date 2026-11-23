@@ -1,0 +1,452 @@
+{
+ "kind": "predict",
+ "input": {
+  "query": "12009 Mumbai Central - Ahmedabad Shatabdi Express (Punctuality Control)",
+  "travel_date": "2026-12-05",
+  "connection_type": "Standard Point-to-Point Travel",
+  "planned_buffer_min": 60
+ },
+ "corridor": {
+  "mode": "train",
+  "train": {
+   "number": "12009",
+   "name": "Mumbai Central - Ahmedabad Shatabdi Express",
+   "tier": 1,
+   "tier_label": "Tier 1 - Premium (Rajdhani / Shatabdi)",
+   "bias": 0.7,
+   "turnaround": 0.2,
+   "single_line": 0.0
+  },
+  "distance_km": 491,
+  "stations": [
+   {
+    "code": "MMCT",
+    "name": "Mumbai Central",
+    "lat": 18.969,
+    "lon": 72.819,
+    "region": "west",
+    "congestion": 0.85,
+    "km": 0,
+    "source": "bundled",
+    "stress_live": 0.0,
+    "stress_season": 0.088,
+    "weather": {
+     "temp_c": 26.8,
+     "precip_mm": 0.0,
+     "wind_kmh": 12.2,
+     "visibility_km": 10.5,
+     "humidity_pct": 58.0,
+     "weather_code": 1,
+     "current_temp_c": 30.8,
+     "current_precip_mm": 0.0,
+     "current_wind_kmh": 15.1
+    },
+    "cum_delay_p50": 0.0,
+    "cum_delay_p90": 0.0,
+    "hotspot": true
+   },
+   {
+    "code": "BVI",
+    "name": "Borivali",
+    "lat": 19.229,
+    "lon": 72.857,
+    "region": "west",
+    "congestion": 0.8,
+    "km": 30,
+    "source": "bundled",
+    "stress_live": 0.0,
+    "stress_season": 0.088,
+    "weather": {
+     "temp_c": 25.8,
+     "precip_mm": 0.0,
+     "wind_kmh": 11.2,
+     "visibility_km": 9.32,
+     "humidity_pct": 53.0,
+     "weather_code": 0,
+     "current_temp_c": 31.4,
+     "current_precip_mm": 0.0,
+     "current_wind_kmh": 10.2
+    },
+    "cum_delay_p50": 0.4,
+    "cum_delay_p90": 1.0,
+    "hotspot": true
+   },
+   {
+    "code": "ST",
+    "name": "Surat",
+    "lat": 21.205,
+    "lon": 72.841,
+    "region": "west",
+    "congestion": 0.75,
+    "km": 263,
+    "source": "bundled",
+    "stress_live": 0.0,
+    "stress_season": 0.088,
+    "weather": {
+     "temp_c": 26.1,
+     "precip_mm": 0.0,
+     "wind_kmh": 9.6,
+     "visibility_km": 12.52,
+     "humidity_pct": 28.0,
+     "weather_code": 0,
+     "current_temp_c": 33.2,
+     "current_precip_mm": 0.0,
+     "current_wind_kmh": 6.3
+    },
+    "cum_delay_p50": 3.6,
+    "cum_delay_p90": 8.2,
+    "hotspot": true
+   },
+   {
+    "code": "BRC",
+    "name": "Vadodara Jn",
+    "lat": 22.31,
+    "lon": 73.181,
+    "region": "west",
+    "congestion": 0.7,
+    "km": 393,
+    "source": "bundled",
+    "stress_live": 0.0,
+    "stress_season": 0.088,
+    "weather": {
+     "temp_c": 24.1,
+     "precip_mm": 0.0,
+     "wind_kmh": 10.2,
+     "visibility_km": 11.18,
+     "humidity_pct": 31.0,
+     "weather_code": 0,
+     "current_temp_c": 31.9,
+     "current_precip_mm": 0.0,
+     "current_wind_kmh": 3.4
+    },
+    "cum_delay_p50": 5.3,
+    "cum_delay_p90": 12.1,
+    "hotspot": true
+   },
+   {
+    "code": "ADI",
+    "name": "Ahmedabad Jn",
+    "lat": 23.025,
+    "lon": 72.601,
+    "region": "west",
+    "congestion": 0.65,
+    "km": 491,
+    "source": "bundled",
+    "stress_live": 0.0,
+    "stress_season": 0.088,
+    "weather": {
+     "temp_c": 24.1,
+     "precip_mm": 0.0,
+     "wind_kmh": 9.2,
+     "visibility_km": 11.58,
+     "humidity_pct": 28.0,
+     "weather_code": 0,
+     "current_temp_c": 31.3,
+     "current_precip_mm": 0.0,
+     "current_wind_kmh": 5.7
+    },
+    "cum_delay_p50": 6.6,
+    "cum_delay_p90": 14.9,
+    "hotspot": false
+   }
+  ],
+  "bottleneck": {
+   "index": 1,
+   "name": "Borivali",
+   "congestion": 0.8
+  },
+  "schedule": {
+   "dep": "06:25",
+   "run_min": 390,
+   "arr_sched": {
+    "time": "12:55",
+    "day": 0
+   },
+   "arr_p50": {
+    "time": "13:01",
+    "day": 0
+   },
+   "arr_p90": {
+    "time": "13:09",
+    "day": 0
+   },
+   "indicative": true
+  }
+ },
+ "metrics": {
+  "reliability_pct": 90,
+  "p50_min": 7,
+  "p90_min": 15,
+  "mean_min": 8,
+  "on_time_threshold_min": 15,
+  "recommended_buffer_min": 15,
+  "planned_buffer_min": 60,
+  "min_transfer_min": 0,
+  "target_confidence_pct": 80,
+  "p_make_planned_pct": 100,
+  "verdict": "safe"
+ },
+ "factors": [
+  {
+   "id": "priority",
+   "label": "Train Priority Tier & Punctuality History",
+   "minutes": -9.1,
+   "share_pct": -138.1
+  },
+  {
+   "id": "congestion",
+   "label": "Corridor Junction Congestion",
+   "minutes": 9.0,
+   "share_pct": 136.3
+  },
+  {
+   "id": "distance",
+   "label": "Route Distance & Rake Turnaround",
+   "minutes": 5.8,
+   "share_pct": 88.0
+  },
+  {
+   "id": "season",
+   "label": "Seasonal Fog / Monsoon Vulnerability",
+   "minutes": 0.9,
+   "share_pct": 13.7
+  },
+  {
+   "id": "weather",
+   "label": "Live Weather & Visibility Impact",
+   "minutes": 0.0,
+   "share_pct": 0.0
+  }
+ ],
+ "buffer_curve": [
+  {
+   "buffer": 0,
+   "p_make": 0.0
+  },
+  {
+   "buffer": 15,
+   "p_make": 0.9021
+  },
+  {
+   "buffer": 30,
+   "p_make": 0.9914
+  },
+  {
+   "buffer": 45,
+   "p_make": 0.9987
+  },
+  {
+   "buffer": 60,
+   "p_make": 0.9997
+  },
+  {
+   "buffer": 75,
+   "p_make": 0.9999
+  },
+  {
+   "buffer": 90,
+   "p_make": 1.0
+  },
+  {
+   "buffer": 105,
+   "p_make": 1.0
+  },
+  {
+   "buffer": 120,
+   "p_make": 1.0
+  },
+  {
+   "buffer": 135,
+   "p_make": 1.0
+  },
+  {
+   "buffer": 150,
+   "p_make": 1.0
+  },
+  {
+   "buffer": 165,
+   "p_make": 1.0
+  },
+  {
+   "buffer": 180,
+   "p_make": 1.0
+  },
+  {
+   "buffer": 195,
+   "p_make": 1.0
+  },
+  {
+   "buffer": 210,
+   "p_make": 1.0
+  },
+  {
+   "buffer": 225,
+   "p_make": 1.0
+  },
+  {
+   "buffer": 240,
+   "p_make": 1.0
+  },
+  {
+   "buffer": 255,
+   "p_make": 1.0
+  },
+  {
+   "buffer": 270,
+   "p_make": 1.0
+  },
+  {
+   "buffer": 285,
+   "p_make": 1.0
+  },
+  {
+   "buffer": 300,
+   "p_make": 1.0
+  },
+  {
+   "buffer": 315,
+   "p_make": 1.0
+  },
+  {
+   "buffer": 330,
+   "p_make": 1.0
+  },
+  {
+   "buffer": 345,
+   "p_make": 1.0
+  },
+  {
+   "buffer": 360,
+   "p_make": 1.0
+  },
+  {
+   "buffer": 375,
+   "p_make": 1.0
+  },
+  {
+   "buffer": 390,
+   "p_make": 1.0
+  },
+  {
+   "buffer": 405,
+   "p_make": 1.0
+  },
+  {
+   "buffer": 420,
+   "p_make": 1.0
+  }
+ ],
+ "weather": {
+  "source": "open-meteo",
+  "basis": "forecast for 2026-12-05",
+  "live_weight": 0.85,
+  "forecast_window": true,
+  "fetched_at": "2026-11-23T10:53:19+00:00",
+  "request_url": "https://api.open-meteo.com/v1/forecast?latitude=18.9690%2C19.2290%2C21.2050%2C22.3100%2C23.0250&longitude=72.8190%2C72.8570%2C72.8410%2C73.1810%2C72.6010&current=temperature_2m%2Crelative_humidity_2m%2Cprecipitation%2Cwind_speed_10m%2Cvisibility%2Cweather_code&hourly=visibility&daily=precipitation_sum%2Ctemperature_2m_max%2Ctemperature_2m_min%2Cwind_speed_10m_max&forecast_days=16&timezone=Asia%2FKolkata&wind_speed_unit=kmh"
+ },
+ "audit": {
+  "breakdown": [
+   {
+    "step": "Base delay",
+    "input": "constant",
+    "x": null,
+    "formula": "2.0",
+    "minutes": 2.0
+   },
+   {
+    "step": "Distance",
+    "input": "distance_km / 2000",
+    "x": 0.245,
+    "formula": "ladder(x, scale 11, power 0.9)",
+    "minutes": 2.58
+   },
+   {
+    "step": "Rake turnaround",
+    "input": "turnaround_risk",
+    "x": 0.2,
+    "formula": "ladder(x, scale 6, power 1.0)",
+    "minutes": 1.2
+   },
+   {
+    "step": "Junction congestion",
+    "input": "congestion_index",
+    "x": 0.755,
+    "formula": "ladder(x, scale 14, power 2.0)",
+    "minutes": 8.96
+   },
+   {
+    "step": "Live weather",
+    "input": "live_route_stress",
+    "x": 0.0,
+    "formula": "0.85 * ladder(x, scale 34, power 1.3)",
+    "minutes": 0.0
+   },
+   {
+    "step": "Seasonal prior",
+    "input": "seasonal_route_stress",
+    "x": 0.088,
+    "formula": "0.6 * ladder(x, scale 30, power 1.3)",
+    "minutes": 0.9
+   },
+   {
+    "step": "Raw delay S",
+    "input": "sum of the above",
+    "x": null,
+    "formula": "sum",
+    "minutes": 15.65
+   },
+   {
+    "step": "Median P50",
+    "input": "tier_multiplier * train_bias",
+    "x": 0.42,
+    "formula": "max(1, S * multiplier)",
+    "minutes": 6.57
+   }
+  ],
+  "formula": [
+   "raw = distance_turnaround + congestion + w_live*weather + 0.6*season  (each a 10-stump boosted ladder)",
+   "P50 = max(1, raw * tier_multiplier * train_bias)",
+   "sigma = 0.50 + 0.35*max(live_stress, 0.8*season_stress) + 0.15*congestion_index (+0.05 for tier 3+)",
+   "P90 = P50 * exp(1.2816 * sigma);  on-time = LogNormalCDF(15 min);  P(make) = LogNormalCDF(buffer - min_transfer)",
+   "recommended buffer = min_transfer + delay quantile at the target confidence, rounded up to 15 min"
+  ],
+  "inputs": {
+   "distance_km": 491,
+   "month": 12,
+   "congestion_index": 0.755,
+   "live_route_stress": 0.0,
+   "seasonal_route_stress": 0.088,
+   "live_weight": 0.85,
+   "raw_delay_min": 15.6,
+   "tier": 1,
+   "tier_multiplier": 0.6,
+   "train_bias": 0.7,
+   "turnaround_risk": 0.2,
+   "single_line_share": 0.0,
+   "sigma": 0.638,
+   "min_transfer_min": 0,
+   "target_confidence": 0.8
+  },
+  "notes": [
+   "Station coordinates and congestion/seasonal priors are bundled planning estimates.",
+   "Timetable times are indicative; check the official railway timetable before travel."
+  ]
+ },
+ "advisory": {
+  "summary": "The Mumbai Central - Ahmedabad Shatabdi Express shows high reliability with a 90% on\u2011time performance and a 100% chance of making the connection. The deterministic model predicts a median delay of 7\u202fmin and a 90th\u2011percentile delay of 15\u202fmin, and the verdict is \"safe\" despite a planned buffer of 60\u202fmin.",
+  "buffer_recommendation": "Given the model\u2011recommended buffer of 15\u202fmin versus the planned 60\u202fmin, you can safely reduce the buffer to around 15\u202fmin while still staying within the expected delay range.",
+  "backup_strategy": [
+   "If the train is delayed beyond the 15\u202fmin buffer, consider booking an alternate Shatabdi departure later in the day.",
+   "Identify a fallback option such as a connecting flight from Mumbai to Ahmedabad.",
+   "Monitor real\u2011time congestion at Borivali (current congestion 0.8) and visibility (9.32\u202fkm) for any sudden changes."
+  ],
+  "watch_items": [
+   "Bottleneck at Borivali \u2013 moderate congestion (0.8) could increase delay.",
+   "Visibility at Borivali (9.32\u202fkm) \u2013 watch for any fog development despite current clear forecast.",
+   "Temperature rise at stations (e.g., current 31.4\u202f\u00b0C at Borivali) \u2013 may affect passenger comfort and station operations."
+  ],
+  "source": "groq",
+  "model": "openai/gpt-oss-120b"
+ },
+ "generated_at": "2026-11-23T10:53:23Z"
+}

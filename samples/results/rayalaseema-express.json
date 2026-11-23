@@ -1,0 +1,463 @@
+{
+ "kind": "predict",
+ "input": {
+  "query": "12794 Rayalaseema Express",
+  "travel_date": "2026-12-12",
+  "connection_type": "Important Exam / Interview / Event",
+  "planned_buffer_min": 90
+ },
+ "corridor": {
+  "mode": "train",
+  "train": {
+   "number": "12794",
+   "name": "Rayalaseema Express",
+   "tier": 3,
+   "tier_label": "Tier 3 - Mail / Express",
+   "bias": 1.0,
+   "turnaround": 0.45,
+   "single_line": 0.1
+  },
+  "distance_km": 825,
+  "stations": [
+   {
+    "code": "NZB",
+    "name": "Nizamabad Jn",
+    "lat": 18.6725,
+    "lon": 78.0941,
+    "region": "deccan",
+    "congestion": 0.4,
+    "km": 0,
+    "source": "bundled",
+    "stress_live": 0.0,
+    "stress_season": 0.116,
+    "weather": {
+     "temp_c": 29.9,
+     "precip_mm": 0.0,
+     "wind_kmh": 9.6,
+     "visibility_km": 12.56,
+     "humidity_pct": 39.0,
+     "weather_code": 2,
+     "current_temp_c": 29.9,
+     "current_precip_mm": 0.0,
+     "current_wind_kmh": 9.6
+    },
+    "cum_delay_p50": 0.0,
+    "cum_delay_p90": 0.0,
+    "hotspot": false
+   },
+   {
+    "code": "SC",
+    "name": "Secunderabad Jn",
+    "lat": 17.434,
+    "lon": 78.501,
+    "region": "deccan",
+    "congestion": 0.65,
+    "km": 175,
+    "source": "bundled",
+    "stress_live": 0.0,
+    "stress_season": 0.116,
+    "weather": {
+     "temp_c": 29.6,
+     "precip_mm": 0.0,
+     "wind_kmh": 10.4,
+     "visibility_km": 15.1,
+     "humidity_pct": 39.0,
+     "weather_code": 3,
+     "current_temp_c": 29.6,
+     "current_precip_mm": 0.0,
+     "current_wind_kmh": 10.4
+    },
+    "cum_delay_p50": 3.9,
+    "cum_delay_p90": 9.6,
+    "hotspot": false
+   },
+   {
+    "code": "KRNT",
+    "name": "Kurnool City",
+    "lat": 15.8281,
+    "lon": 78.0373,
+    "region": "south",
+    "congestion": 0.45,
+    "km": 390,
+    "source": "bundled",
+    "stress_live": 0.0,
+    "stress_season": 0.193,
+    "weather": {
+     "temp_c": 32.6,
+     "precip_mm": 0.0,
+     "wind_kmh": 10.6,
+     "visibility_km": 16.88,
+     "humidity_pct": 32.0,
+     "weather_code": 3,
+     "current_temp_c": 32.6,
+     "current_precip_mm": 0.0,
+     "current_wind_kmh": 10.6
+    },
+    "cum_delay_p50": 8.3,
+    "cum_delay_p90": 20.1,
+    "hotspot": false
+   },
+   {
+    "code": "GTL",
+    "name": "Guntakal Jn",
+    "lat": 15.167,
+    "lon": 77.37,
+    "region": "south",
+    "congestion": 0.5,
+    "km": 510,
+    "source": "bundled",
+    "stress_live": 0.0,
+    "stress_season": 0.193,
+    "weather": {
+     "temp_c": 31.6,
+     "precip_mm": 0.0,
+     "wind_kmh": 12.7,
+     "visibility_km": 18.24,
+     "humidity_pct": 34.0,
+     "weather_code": 3,
+     "current_temp_c": 31.6,
+     "current_precip_mm": 0.0,
+     "current_wind_kmh": 12.7
+    },
+    "cum_delay_p50": 10.8,
+    "cum_delay_p90": 26.2,
+    "hotspot": false
+   },
+   {
+    "code": "RU",
+    "name": "Renigunta Jn",
+    "lat": 13.6337,
+    "lon": 79.511,
+    "region": "south",
+    "congestion": 0.55,
+    "km": 815,
+    "source": "bundled",
+    "stress_live": 0.113,
+    "stress_season": 0.193,
+    "weather": {
+     "temp_c": 25.3,
+     "precip_mm": 5.2,
+     "wind_kmh": 12.0,
+     "visibility_km": 3.86,
+     "humidity_pct": 91.0,
+     "weather_code": 80,
+     "current_temp_c": 25.3,
+     "current_precip_mm": 0.5,
+     "current_wind_kmh": 12.0
+    },
+    "cum_delay_p50": 17.5,
+    "cum_delay_p90": 42.5,
+    "hotspot": false
+   },
+   {
+    "code": "TPTY",
+    "name": "Tirupati",
+    "lat": 13.6288,
+    "lon": 79.4192,
+    "region": "south",
+    "congestion": 0.6,
+    "km": 825,
+    "source": "bundled",
+    "stress_live": 0.139,
+    "stress_season": 0.193,
+    "weather": {
+     "temp_c": 25.4,
+     "precip_mm": 4.3,
+     "wind_kmh": 12.6,
+     "visibility_km": 3.3,
+     "humidity_pct": 87.0,
+     "weather_code": 80,
+     "current_temp_c": 25.4,
+     "current_precip_mm": 0.5,
+     "current_wind_kmh": 12.6
+    },
+    "cum_delay_p50": 17.7,
+    "cum_delay_p90": 43.1,
+    "hotspot": false
+   }
+  ],
+  "bottleneck": {
+   "index": 1,
+   "name": "Secunderabad Jn",
+   "congestion": 0.65
+  },
+  "schedule": null
+ },
+ "metrics": {
+  "reliability_pct": 41,
+  "p50_min": 18,
+  "p90_min": 43,
+  "mean_min": 23,
+  "on_time_threshold_min": 15,
+  "recommended_buffer_min": 105,
+  "planned_buffer_min": 90,
+  "min_transfer_min": 45,
+  "target_confidence_pct": 95,
+  "p_make_planned_pct": 91,
+  "verdict": "tight"
+ },
+ "factors": [
+  {
+   "id": "distance",
+   "label": "Route Distance & Rake Turnaround",
+   "minutes": 9.8,
+   "share_pct": 55.6
+  },
+  {
+   "id": "congestion",
+   "label": "Corridor Junction Congestion",
+   "minutes": 5.0,
+   "share_pct": 28.5
+  },
+  {
+   "id": "season",
+   "label": "Seasonal Fog / Monsoon Vulnerability",
+   "minutes": 2.2,
+   "share_pct": 12.6
+  },
+  {
+   "id": "weather",
+   "label": "Live Weather & Visibility Impact",
+   "minutes": 0.6,
+   "share_pct": 3.4
+  },
+  {
+   "id": "priority",
+   "label": "Train Priority Tier & Punctuality History",
+   "minutes": 0.0,
+   "share_pct": 0.0
+  }
+ ],
+ "buffer_curve": [
+  {
+   "buffer": 0,
+   "p_make": 0.0
+  },
+  {
+   "buffer": 15,
+   "p_make": 0.0
+  },
+  {
+   "buffer": 30,
+   "p_make": 0.0
+  },
+  {
+   "buffer": 45,
+   "p_make": 0.0
+  },
+  {
+   "buffer": 60,
+   "p_make": 0.4065
+  },
+  {
+   "buffer": 75,
+   "p_make": 0.7767
+  },
+  {
+   "buffer": 90,
+   "p_make": 0.9107
+  },
+  {
+   "buffer": 105,
+   "p_make": 0.9607
+  },
+  {
+   "buffer": 120,
+   "p_make": 0.9812
+  },
+  {
+   "buffer": 135,
+   "p_make": 0.9904
+  },
+  {
+   "buffer": 150,
+   "p_make": 0.9948
+  },
+  {
+   "buffer": 165,
+   "p_make": 0.9971
+  },
+  {
+   "buffer": 180,
+   "p_make": 0.9983
+  },
+  {
+   "buffer": 195,
+   "p_make": 0.999
+  },
+  {
+   "buffer": 210,
+   "p_make": 0.9993
+  },
+  {
+   "buffer": 225,
+   "p_make": 0.9996
+  },
+  {
+   "buffer": 240,
+   "p_make": 0.9997
+  },
+  {
+   "buffer": 255,
+   "p_make": 0.9998
+  },
+  {
+   "buffer": 270,
+   "p_make": 0.9999
+  },
+  {
+   "buffer": 285,
+   "p_make": 0.9999
+  },
+  {
+   "buffer": 300,
+   "p_make": 0.9999
+  },
+  {
+   "buffer": 315,
+   "p_make": 1.0
+  },
+  {
+   "buffer": 330,
+   "p_make": 1.0
+  },
+  {
+   "buffer": 345,
+   "p_make": 1.0
+  },
+  {
+   "buffer": 360,
+   "p_make": 1.0
+  },
+  {
+   "buffer": 375,
+   "p_make": 1.0
+  },
+  {
+   "buffer": 390,
+   "p_make": 1.0
+  },
+  {
+   "buffer": 405,
+   "p_make": 1.0
+  },
+  {
+   "buffer": 420,
+   "p_make": 1.0
+  }
+ ],
+ "weather": {
+  "source": "open-meteo",
+  "basis": "live current conditions (travel date is beyond the 16-day forecast window)",
+  "live_weight": 0.35,
+  "forecast_window": false,
+  "fetched_at": "2026-11-23T10:53:23+00:00",
+  "request_url": "https://api.open-meteo.com/v1/forecast?latitude=18.6725%2C17.4340%2C15.8281%2C15.1670%2C13.6337%2C13.6288&longitude=78.0941%2C78.5010%2C78.0373%2C77.3700%2C79.5110%2C79.4192&current=temperature_2m%2Crelative_humidity_2m%2Cprecipitation%2Cwind_speed_10m%2Cvisibility%2Cweather_code&hourly=visibility&daily=precipitation_sum%2Ctemperature_2m_max%2Ctemperature_2m_min%2Cwind_speed_10m_max&forecast_days=16&timezone=Asia%2FKolkata&wind_speed_unit=kmh"
+ },
+ "audit": {
+  "breakdown": [
+   {
+    "step": "Base delay",
+    "input": "constant",
+    "x": null,
+    "formula": "2.0",
+    "minutes": 2.0
+   },
+   {
+    "step": "Distance",
+    "input": "distance_km / 2000",
+    "x": 0.412,
+    "formula": "ladder(x, scale 11, power 0.9)",
+    "minutes": 4.82
+   },
+   {
+    "step": "Rake turnaround",
+    "input": "turnaround_risk",
+    "x": 0.45,
+    "formula": "ladder(x, scale 6, power 1.0)",
+    "minutes": 3.0
+   },
+   {
+    "step": "Junction congestion",
+    "input": "congestion_index",
+    "x": 0.631,
+    "formula": "ladder(x, scale 14, power 2.0)",
+    "minutes": 5.04
+   },
+   {
+    "step": "Live weather",
+    "input": "live_route_stress",
+    "x": 0.086,
+    "formula": "0.35 * ladder(x, scale 34, power 1.3)",
+    "minutes": 0.6
+   },
+   {
+    "step": "Seasonal prior",
+    "input": "seasonal_route_stress",
+    "x": 0.178,
+    "formula": "0.6 * ladder(x, scale 30, power 1.3)",
+    "minutes": 2.22
+   },
+   {
+    "step": "Raw delay S",
+    "input": "sum of the above",
+    "x": null,
+    "formula": "sum",
+    "minutes": 17.68
+   },
+   {
+    "step": "Median P50",
+    "input": "tier_multiplier * train_bias",
+    "x": 1.0,
+    "formula": "max(1, S * multiplier)",
+    "minutes": 17.68
+   }
+  ],
+  "formula": [
+   "raw = distance_turnaround + congestion + w_live*weather + 0.6*season  (each a 10-stump boosted ladder)",
+   "P50 = max(1, raw * tier_multiplier * train_bias)",
+   "sigma = 0.50 + 0.35*max(live_stress, 0.8*season_stress) + 0.15*congestion_index (+0.05 for tier 3+)",
+   "P90 = P50 * exp(1.2816 * sigma);  on-time = LogNormalCDF(15 min);  P(make) = LogNormalCDF(buffer - min_transfer)",
+   "recommended buffer = min_transfer + delay quantile at the target confidence, rounded up to 15 min"
+  ],
+  "inputs": {
+   "distance_km": 825,
+   "month": 12,
+   "congestion_index": 0.631,
+   "live_route_stress": 0.086,
+   "seasonal_route_stress": 0.178,
+   "live_weight": 0.35,
+   "raw_delay_min": 17.7,
+   "tier": 3,
+   "tier_multiplier": 1.0,
+   "train_bias": 1.0,
+   "turnaround_risk": 0.45,
+   "single_line_share": 0.1,
+   "sigma": 0.695,
+   "min_transfer_min": 45,
+   "target_confidence": 0.95
+  },
+  "notes": [
+   "Station coordinates and congestion/seasonal priors are bundled planning estimates.",
+   "Timetable times are indicative; check the official railway timetable before travel."
+  ]
+ },
+ "advisory": {
+  "summary": "The Rayalaseema Express has a low on\u2011time performance of 41% and a 90th\u2011percentile delay of 43 minutes, making the journey relatively unreliable. The bottleneck at Secunderabad Jn (congestion 0.65) and moderate weather impacts contribute to the tight verdict.",
+  "buffer_recommendation": "Use the model\u2011recommended buffer of 105 minutes rather than the planned 90 minutes to maintain the 91% chance of making the connection.",
+  "backup_strategy": [
+   "If possible, depart earlier from Nizamabad Jn to add extra slack.",
+   "Identify an alternate train from Secunderabad Jn to Tirupati that departs later in the day as a fallback.",
+   "Consider a short\u2011haul flight from Hyderabad (near Secunderabad) to Tirupati if the train is delayed beyond the buffer.",
+   "Monitor real\u2011time congestion at Secunderabad Jn and weather updates at Renigunta and Tirupati."
+  ],
+  "watch_items": [
+   "High congestion at Secunderabad Jn (0.65) may cause additional delays.",
+   "Reduced visibility and precipitation at Renigunta Jn (visibility 3.86 km, precip 5.2 mm) and Tirupati (visibility 3.3 km, precip 4.3 mm).",
+   "Overall weather impact is low (0.6 min) but localized fog/monsoon at the southern stations could worsen delays."
+  ],
+  "source": "groq",
+  "model": "openai/gpt-oss-120b"
+ },
+ "generated_at": "2026-11-23T10:53:26Z"
+}

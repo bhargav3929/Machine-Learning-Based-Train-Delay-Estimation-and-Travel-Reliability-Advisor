@@ -1,0 +1,10 @@
+{
+  "id": "howrah-new-delhi-rajdhani",
+  "title": "12301 Howrah - New Delhi Rajdhani Express",
+  "input_text": "12301 Howrah - New Delhi Rajdhani Express (via Mughalsarai / Kanpur)",
+  "connection_type": "Connecting Flight at Destination",
+  "planned_buffer_min": 120,
+  "travel_date": "2026-12-27",
+  "blurb": "Dense Gangetic-plain junctions and peak fog season.",
+  "order": 2
+}

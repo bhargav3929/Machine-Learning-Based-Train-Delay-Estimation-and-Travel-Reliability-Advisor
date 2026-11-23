@@ -21,12 +21,12 @@ Click **API Keys** in the app and paste your key (it starts with `gsk_`). It is 
 
 ## 4. How to use it
 
-1. Click a **sample card** (for example *Howrah to New Delhi Rajdhani*). Its saved result appears instantly and nothing is used up. The Mumbai - Ahmedabad Shatabdi card is a punctuality control: you should see a high on-time score and a small delay. The *Invalid Train Control* card shows how a train that doesn't exist is rejected with a clear message and no invented numbers.
-2. Press **Run live analysis** to get fresh weather and a fresh Groq plan. The **execution tracker** shows the four stages as they finish.
+1. Click a **sample corridor chip** under the dispatch bar (for example *12301 Howrah - New Delhi Rajdhani Express*). Its saved result appears instantly and nothing is used up. The Mumbai - Ahmedabad Shatabdi chip is a punctuality control: you should see a high on-time score and a small delay. The *99999 Starship Express* chip shows how a train that doesn't exist is rejected with a clear message and no invented numbers.
+2. Press **Analyze Corridor Reliability** to get fresh weather and a fresh Groq plan. The **execution tracker** shows the four stages as they finish.
 3. Type your own train number, train name, or corridor such as `Patna -> Lucknow`. Pick the travel date, the connection type (flight, onward train, exam or event, or plain travel) and your planned buffer in minutes.
-4. Read the **four signal tiles**: on-time score, median delay, 90th-percentile delay and the safe buffer with a Safe / Tight / Risky verdict against your plan.
-5. Hover a station in the **timeline** to see its weather and the delay built up so far. Open **Telemetry & ML baseline audit** to see the exact coordinates, weather values and formula inputs.
-6. Use the **Train vs. Train Reliability Compare** tab to compare two options, and the **Connecting Travel Buffer Planner** tab to see your chance of making the connection for any buffer.
+4. Read the **departure board** and its four signal tiles: on-time score, median delay, 90th-percentile delay and the safe buffer with a Safe / Tight / Risky verdict against your plan.
+5. Hover a station in the **timeline** to see its weather and the delay built up so far. Open **Telemetry & ML Verification Audit** to see the exact coordinates, weather values and formula inputs.
+6. Use the **Train vs. Train Duel** tab to compare two options, and the **Connection Buffer Matrix** tab to see your chance of making the connection for any buffer.
 7. The **History** button lists your earlier runs. You get 15 live runs per hour; a run that fails (unknown station, AI busy) does not use one up.
 
 ## 5. How it works
@@ -43,7 +43,7 @@ Sample results in `samples/results/` were recorded with `scripts/record_samples.
 ## 6. Project structure
 
 ```
-07_train_delay_reliability_advisor/
+Machine-Learning-Based-Train-Delay-Estimation-and-Travel-Reliability-Advisor/
 ├── app/
 │   ├── __init__.py
 │   ├── access.py        # hourly run limit and access checks
@@ -67,6 +67,7 @@ Sample results in `samples/results/` were recorded with `scripts/record_samples.
 │   ├── styles.css
 │   └── js/ (api.js, app.js, charts.js, render.js)
 ├── .env.example
+├── .gitattributes
 ├── .gitignore
 ├── requirements.txt
 ├── start.bat
@@ -85,11 +86,3 @@ Sample results in `samples/results/` were recorded with `scripts/record_samples.
 - **"Couldn't find a station":** check the spelling or use the nearest big city name.
 
 Timetable times, distances and station coordinates are approximate planning data bundled with the app. This tool estimates risk; it does not know the live position of any train.
-
-Run the command:
-
-Windows (PowerShell):
-python -m venv .venv; .\.venv\Scripts\python.exe -m pip install -r requirements.txt; .\.venv\Scripts\python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 8007
-
-macOS / Linux (Terminal):
-python3 -m venv .venv && ./.venv/bin/python -m pip install -r requirements.txt && ./.venv/bin/python -m uvicorn app.main:app --host 127.0.0.1 --port 8007

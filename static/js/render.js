@@ -1,9 +1,10 @@
 // HTML builders for results. All dynamic text goes through esc().
-import { esc, timeline, bufferCurve } from "./charts.js";
+import { esc, timeline, bufferCurve, gauge } from "./charts.js";
 
 const lvl = (v, ok, warn) => (v <= ok ? "ok" : v <= warn ? "warn" : "bad");
 const relLvl = (p) => (p >= 75 ? "ok" : p >= 45 ? "warn" : "bad");
 const VERDICT = { safe: ["ok", "Safe"], tight: ["warn", "Tight"], risky: ["bad", "Risky"] };
+const BOARD = { safe: ["ok", "SAFE CONNECTION"], tight: ["warn", "INCREASE BUFFER"], risky: ["bad", "INCREASE BUFFER"] };
 const dm = (n) => `+${n} min`;
 
 function clock(c) { return c ? `${c.time}${c.day ? ` <small style="display:inline">+${c.day}d</small>` : ""}` : "–"; }
@@ -13,53 +14,67 @@ export function titleOf(r) {
   return t ? `${t.number} ${t.name}` : `${s[0].name} → ${s[s.length - 1].name}`;
 }
 
-function strip(r) {
-  const m = r.metrics, v = VERDICT[m.verdict];
+function tiles(r) {
+  const m = r.metrics, v = VERDICT[m.verdict], rl = relLvl(m.reliability_pct);
   return `<div class="strip">
-    <div class="metric ${relLvl(m.reliability_pct)}"><div class="k">On-Time Reliability Score</div><div class="v">${m.reliability_pct}%</div><div class="s">chance of arriving within ${m.on_time_threshold_min} min of schedule</div></div>
+    <div class="metric ${rl}"><div class="k">On-Time Reliability Score</div><div class="gauge">${gauge(m.reliability_pct, rl)}<div class="v">${m.reliability_pct}%</div></div><div class="s">chance of arriving within ${m.on_time_threshold_min} min of schedule</div></div>
     <div class="metric ${lvl(m.p50_min, 15, 45)}"><div class="k">Expected Median Delay (P50)</div><div class="v">${dm(m.p50_min)}</div><div class="s">half of runs are better than this</div></div>
     <div class="metric ${lvl(m.p90_min, 30, 90)}"><div class="k">90th-Percentile Tail Delay (P90)</div><div class="v">${dm(m.p90_min)}</div><div class="s">1 run in 10 is worse than this</div></div>
     <div class="metric ${v[0]}"><div class="k">Safe Connection Buffer</div><div class="v">${m.recommended_buffer_min} min</div><div class="s"><span class="chip ${v[0]}">${v[1]}</span> planned ${m.planned_buffer_min} min · ${m.p_make_planned_pct}% to make it</div></div>
   </div>`;
 }
 
-function schedule(r) {
+function clocks(r) {
   const s = r.corridor.schedule;
   if (!s) return "";
-  return `<div class="card sched">
+  return `<div class="clocks">
     <div class="clock"><small>Departs</small><b>${esc(s.dep)}</b></div>
     <div class="clock"><small>Scheduled arrival</small><b>${clock(s.arr_sched)}</b></div>
-    <div class="clock"><small>Predicted arrival (P50)</small><b style="color:#0F294A">${clock(s.arr_p50)}</b></div>
-    <div class="clock"><small>Worst-case arrival (P90)</small><b style="color:#DC2626">${clock(s.arr_p90)}</b></div>
-    <div class="tagline" style="margin:0">Timetable times are indicative.</div></div>`;
+    <div class="clock"><small>Predicted arrival (P50)</small><b class="c">${clock(s.arr_p50)}</b></div>
+    <div class="clock"><small>Worst-case arrival (P90)</small><b class="r">${clock(s.arr_p90)}</b></div>
+    <div class="tagline">Timetable times are indicative.</div></div>`;
+}
+
+// Split-flap departure board: train number, route, status pill, four signal tiles, arrival clocks.
+function board(r) {
+  const c = r.corridor, st = c.stations, m = r.metrics, b = BOARD[m.verdict];
+  const num = c.train ? String(c.train.number) : "ROUTE";
+  const flaps = [...num].map((ch) => `<span class="flap">${esc(ch)}</span>`).join("");
+  const name = c.train ? c.train.name : `${st[0].name} → ${st[st.length - 1].name}`;
+  return `<section class="board" aria-label="Departure and arrival delay board">
+    <div class="board-head">
+      <div class="board-train"><span class="flaps" aria-label="Train ${esc(num)}">${flaps}</span>
+        <div class="board-route"><b>${esc(name)}</b><small>${esc(st[0].name)} → ${esc(st[st.length - 1].name)} · ${c.distance_km} km · ${esc(r.input.travel_date)} · ${esc(r.input.connection_type)}</small></div></div>
+      <span class="status ${b[0]}">${b[1]}</span>
+    </div>${tiles(r)}${clocks(r)}</section>`;
 }
 
 function timelineCard(r, heading) {
   const bn = r.corridor.bottleneck;
-  return `<div class="card"><h3>${heading || "Station-by-station delay &amp; weather propagation"}</h3>
+  return `<div class="card"><h3>${heading || "Corridor route track &amp; delay build-up"}</h3>
     <div class="svgwrap">${timeline(r)}</div>
     <div class="stinfo" data-stinfo>Hover or tap a station. Bottleneck junction: <b>${esc(bn.name)}</b> (congestion ${Math.round(bn.congestion * 100)}%).</div>
-    <div class="legend"><span><i style="background:#0F294A"></i>Median (P50) delay build-up</span><span><i style="background:#DC2626"></i>Worst-case (P90)</span><span>Weather badge border: fog/visibility risk</span><span>Ring: congestion hotspot</span></div>
+    <div class="legend"><span><i style="background:#F59E0B"></i>Median (P50) delay build-up</span><span><i style="background:#EF4444"></i>Worst-case (P90)</span><span><i style="background:#06B6D4"></i>Rail track</span><span>Badge border: fog/visibility risk</span><span>Dashed ring: congestion hotspot</span></div>
     <div class="tagline">Weather: ${esc(r.weather.basis)}</div></div>`;
 }
 
 function factors(r) {
   const max = Math.max(...r.factors.map((f) => Math.abs(f.minutes)), 1);
-  return `<div class="card"><h3>ML factor attribution</h3><div class="bars">${r.factors.map((f) => {
+  return `<div class="card"><h3>ML feature attribution</h3><div class="bars">${r.factors.map((f) => {
     const neg = f.minutes < 0;
-    const col = neg ? "#059669" : f.share_pct >= 30 ? "#DC2626" : f.share_pct >= 12 ? "#D97706" : "#3b6aa8";
-    return `<div class="bar"><span>${esc(f.label)}</span><div class="track"><div class="fill" style="width:${Math.max((Math.abs(f.minutes) / max) * 100, 1.5)}%;background:${col}"></div></div><span class="val">${neg ? "−" : "+"}${Math.abs(f.minutes)} min · ${f.share_pct}%</span></div>`;
+    const col = neg ? "#10B981" : f.share_pct >= 30 ? "#EF4444" : f.share_pct >= 12 ? "#F59E0B" : "#06B6D4";
+    return `<div class="bar"><span>${esc(f.label)}</span><span class="val">${neg ? "−" : "+"}${Math.abs(f.minutes)} min · ${f.share_pct}%</span><div class="track"><div class="fill" style="width:${Math.max((Math.abs(f.minutes) / max) * 100, 1.5)}%;background:${col};color:${col}"></div></div></div>`;
   }).join("")}</div><div class="tagline">Shares add up to 100% of the median delay. A green bar means that factor shields the journey from delay.</div></div>`;
 }
 
-function advisory(r) {
+function advisoryCards(r) {
   const a = r.advisory, m = r.metrics, v = VERDICT[m.verdict];
   const src = a.source === "groq" ? `Groq · ${esc(a.model)}` : "Rule-based baseline (no AI call)";
-  return `<div class="cards3">
-    <div class="card"><h3>Reliability summary</h3><p>${esc(a.summary)}</p>${a.watch_items && a.watch_items.length ? `<ul style="margin-top:8px">${a.watch_items.map((w) => `<li>${esc(w)}</li>`).join("")}</ul>` : ""}<div class="tagline">${src}</div></div>
-    <div class="card"><h3>Safer buffer recommendation</h3><p><span class="chip ${v[0]}">${v[1]}</span> <b class="num">${m.recommended_buffer_min} min</b> recommended vs <b class="num">${m.planned_buffer_min} min</b> planned.</p><p style="margin-top:8px">${esc(a.buffer_recommendation)}</p></div>
-    <div class="card"><h3>Alternative departure / backup strategy</h3><ul>${a.backup_strategy.map((b) => `<li>${esc(b)}</li>`).join("")}</ul></div>
-  </div>`;
+  return [
+    `<div class="card adv-buffer"><h3>Recommended safe buffer</h3><div class="pair"><span class="big">${m.recommended_buffer_min} min</span><span class="chip ${v[0]}">${v[1]}</span><span class="muted">vs <b class="num">${m.planned_buffer_min} min</b> planned</span></div><p>${esc(a.buffer_recommendation)}</p><div class="tagline">${src}</div></div>`,
+    `<div class="card"><h3>Alternative train / departure advice</h3><ul>${a.backup_strategy.map((b) => `<li>${esc(b)}</li>`).join("")}</ul></div>`,
+    `<div class="card"><h3>Route risk notes</h3><p>${esc(a.summary)}</p>${a.watch_items && a.watch_items.length ? `<ul style="margin-top:8px">${a.watch_items.map((w) => `<li>${esc(w)}</li>`).join("")}</ul>` : ""}</div>`,
+  ].join("");
 }
 
 const WMO = (c) => (c == null ? "n/a" : c === 0 ? "clear" : c <= 3 ? "partly/overcast" : c === 45 || c === 48 ? "fog" : c < 60 ? "drizzle" : c < 70 ? "rain" : c < 80 ? "snow" : c < 90 ? "showers" : "thunderstorm");
@@ -90,11 +105,6 @@ function audit(r, open) {
     <p class="muted" style="margin-top:8px">${r.audit.notes.map(esc).join(" ")}</p></div></details>`;
 }
 
-function head(r) {
-  const c = r.corridor, st = c.stations;
-  return `<div class="head"><h2>${esc(titleOf(r))}</h2><div class="meta mono">${esc(st[0].name)} → ${esc(st[st.length - 1].name)} · ${c.distance_km} km · ${esc(r.input.travel_date)} · ${esc(r.input.connection_type)}</div></div>`;
-}
-
 function bufferCard(r) {
   const m = r.metrics;
   const rows = [30, 60, 90, 120, 180, 240].concat([m.planned_buffer_min, m.recommended_buffer_min]).filter((v, i, a) => a.indexOf(v) === i).sort((a, b) => a - b).map((b) => {
@@ -105,23 +115,25 @@ function bufferCard(r) {
   return `<div class="card"><h3>Chance of making the connection, by buffer</h3>
     <div class="svgwrap">${bufferCurve(r)}</div>
     <p class="muted">Minimum transfer time for this connection type is ${m.min_transfer_min} min. The safe buffer targets ${m.target_confidence_pct}% confidence.</p>
-    <table style="max-width:360px"><thead><tr><th class="num">Buffer</th><th class="num">Chance to make it (nearest 15 min)</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+    <table style="max-width:360px;margin-top:8px"><thead><tr><th class="num">Buffer</th><th class="num">Chance to make it (nearest 15 min)</th></tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 
 export function rejectionHtml(r) {
-  return `<div class="head"><h2>Rejected: ${esc(r.input.query)}</h2><div class="meta mono">HTTP ${r.http_status} ${esc(r.code)}</div></div>
-    <div class="card" style="border-left:4px solid #DC2626"><h3>The validator refused this input</h3>
+  const flaps = [..."NOT FOUND"].map((ch) => `<span class="flap">${ch === " " ? "&nbsp;" : ch}</span>`).join("");
+  return `<section class="board"><div class="board-head"><div class="board-train"><span class="flaps">${flaps}</span>
+      <div class="board-route"><b>Rejected: ${esc(r.input.query)}</b><small>HTTP ${r.http_status} ${esc(r.code)}</small></div></div><span class="status bad">REJECTED</span></div></section>
+    <div class="card" style="border-left:4px solid #EF4444;margin-top:14px"><h3>The validator refused this input</h3>
       <p><b>${esc(r.error)}</b></p>
       <p class="muted" style="margin-top:10px">No delay numbers were produced, the weather and AI were never called, and this attempt did not use any of your 15 hourly runs.</p>
-      <pre class="f">POST api/predict  ->  ${r.http_status}
+      <pre class="f" style="margin-top:10px">POST api/predict  ->  ${r.http_status}
 {"error": "${esc(r.error)}",
  "code": "${esc(r.code)}"}</pre></div>`;
 }
 
 export function predictHtml(r, view) {
   if (r.kind === "rejection") return rejectionHtml(r);
-  if (view === "buffer") return head(r) + strip(r) + bufferCard(r) + advisory(r) + schedule(r) + audit(r, false);
-  return head(r) + strip(r) + schedule(r) + timelineCard(r) + audit(r, false) + factors(r) + advisory(r);
+  const mainCol = view === "buffer" ? board(r) + bufferCard(r) + audit(r, false) : board(r) + timelineCard(r) + audit(r, false);
+  return `<div class="grid"><div class="main">${mainCol}</div><div class="side">${factors(r)}${advisoryCards(r)}</div></div>`;
 }
 
 export function compareHtml(c) {
@@ -138,17 +150,19 @@ export function compareHtml(c) {
   };
   const d = (n, unit) => (n === 0 ? "equal" : `${n > 0 ? "+" : "−"}${Math.abs(n)}${unit}`);
   const pick = adv.pick && adv.pick !== "either" ? `Groq pick: Option ${adv.pick}` : "Groq pick: either option";
-  return `<div class="head"><h2>Train vs. train reliability</h2><div class="meta mono">${esc(a.input.travel_date)} · ${esc(a.input.connection_type)}${k.same_corridor ? "" : " · different corridors"}</div></div>
+  const lead = k.more_reliable === "A" || k.more_reliable === "B";
+  return `<div class="stack"><section class="board"><div class="board-head"><div class="board-route"><b>Train vs. train duel</b><small>${esc(a.input.travel_date)} · ${esc(a.input.connection_type)}${k.same_corridor ? "" : " · different corridors"}</small></div>
+      <span class="status ${lead ? "ok" : "warn"}">${lead ? `OPTION ${esc(k.more_reliable)} LEADS` : "TOO CLOSE TO CALL"}</span></div></section>
     <div class="cmp">${col(a, "A")}${col(b, "B")}</div>
     <div class="card"><h3>Difference (A minus B)</h3><table style="max-width:520px"><tbody>
       <tr><td>On-time reliability</td><td class="num">${d(k.delta_reliability_pct, " pts")}</td></tr>
       <tr><td>Median delay</td><td class="num">${d(k.delta_p50_min, " min")}</td></tr>
       <tr><td>Tail (P90) delay</td><td class="num">${d(k.delta_p90_min, " min")}</td></tr></tbody></table></div>
-    <div class="cards3">
+    <div class="three">
       <div class="card"><h3>Comparison summary</h3><p>${esc(adv.summary)}</p><div class="tagline">${esc(pick)} · Groq · ${esc(adv.model)}</div></div>
       <div class="card"><h3>Safer buffer recommendation</h3><p>${esc(adv.buffer_recommendation)}</p></div>
       <div class="card"><h3>Backup strategy</h3><ul>${adv.backup_strategy.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div></div>
-    ${timelineCard(a, "Option A: " + esc(titleOf(a)))}${timelineCard(b, "Option B: " + esc(titleOf(b)))}`;
+    ${timelineCard(a, "Option A: " + esc(titleOf(a)))}${timelineCard(b, "Option B: " + esc(titleOf(b)))}</div>`;
 }
 
 export function stationInfo(r, i) {

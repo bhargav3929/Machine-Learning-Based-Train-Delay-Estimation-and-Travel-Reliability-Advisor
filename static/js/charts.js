@@ -1,6 +1,6 @@
-// SVG builders: station-by-station delay timeline and connection-success curve.
+// SVG builders: station-by-station route track and connection-success curve (dark CTC palette).
 export const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-const COLORS = { ok: "#059669", warn: "#D97706", bad: "#DC2626", indigo: "#0F294A", line: "#D8E0EA", muted: "#5B6B80" };
+export const COLORS = { ok: "#10B981", warn: "#F59E0B", bad: "#EF4444", cyan: "#06B6D4", amber: "#F59E0B", line: "#243044", muted: "#94A3B8", ink: "#F8FAFC", panel: "#0B0F17" };
 
 export function stressLevel(s, wLive) {
   const v = Math.max((s.stress_live || 0) * wLive, (s.stress_season || 0) * 0.6);
@@ -12,6 +12,21 @@ export function visLevel(vis) {
   return vis >= 4 ? "ok" : vis >= 1 ? "warn" : "bad";
 }
 
+// Small weather glyph (about 18px wide) from a WMO weather code, drawn around (x, y).
+export function weatherIcon(code, x, y) {
+  const c = COLORS.cyan, a = COLORS.amber;
+  const cloud = (col) => `<path d="M-7 4h12a4 4 0 0 0 0-8 5 5 0 0 0-9.4-1A4.5 4.5 0 0 0-7 4z" fill="none" stroke="${col}" stroke-width="1.6" stroke-linejoin="round"/>`;
+  let g;
+  if (code == null) g = `<circle r="5" fill="none" stroke="${COLORS.muted}" stroke-dasharray="2 2"/>`;
+  else if (code === 0) g = `<circle r="4" fill="${a}"/><g stroke="${a}" stroke-width="1.5" stroke-linecap="round"><path d="M0-8v2M0 6v2M-8 0h2M6 0h2M-5.6-5.6l1.4 1.4M4.2 4.2l1.4 1.4M-5.6 5.6l1.4-1.4M4.2-4.2l1.4-1.4"/></g>`;
+  else if (code <= 3) g = `<circle cx="-3" cy="-3" r="3" fill="${a}"/>${cloud(c)}`;
+  else if (code === 45 || code === 48) g = `<g stroke="${c}" stroke-width="1.8" stroke-linecap="round"><path d="M-7-4h14M-9 0h14M-7 4h14"/></g>`;
+  else if (code >= 95) g = `${cloud(c)}<path d="M1 3l-3 5h3l-1 4 4-6h-3z" fill="${a}"/>`;
+  else if (code >= 71 && code <= 77) g = `<g stroke="${c}" stroke-width="1.6" stroke-linecap="round"><path d="M0-7v14M-6-3.5l12 7M-6 3.5l12-7"/></g>`;
+  else g = `${cloud(c)}<g stroke="${c}" stroke-width="1.6" stroke-linecap="round"><path d="M-4 7l-1 3M0 7l-1 3M4 7l-1 3"/></g>`;
+  return `<g transform="translate(${x} ${y})" aria-hidden="true">${g}</g>`;
+}
+
 export function timeline(r) {
   const st = r.corridor.stations, n = st.length, wl = r.weather.live_weight;
   const W = 1000, L = 74, R = 66, base = 306, top = 138;
@@ -20,44 +35,40 @@ export function timeline(r) {
   const y = (d) => base - ((base - top) * d) / maxD;
   const spacing = n > 1 ? (W - L - R) / (n - 1) : 200, bw = Math.min(108, spacing - 8);
   let s = `<svg viewBox="0 0 ${W} 392" role="img" aria-label="Delay build-up along the corridor">`;
-  // y grid
   [0, 0.5, 1].forEach((f) => {
     const v = (maxD * f), yy = y(v);
     s += `<line x1="${L - 10}" x2="${W - R + 10}" y1="${yy}" y2="${yy}" stroke="${COLORS.line}" ${f ? 'stroke-dasharray="3 4"' : ""}/>`;
     s += `<text x="${L - 16}" y="${yy + 4}" text-anchor="end" font-size="11" class="mono-t" fill="${COLORS.muted}">+${Math.round(v)}</text>`;
   });
   s += `<text x="12" y="${top - 14}" font-size="10" fill="${COLORS.muted}">DELAY (MIN)</text>`;
-  // curves
   const pts = (k) => st.map((q, i) => `${x(i).toFixed(1)},${y(q[k]).toFixed(1)}`);
-  s += `<polygon points="${x(0)},${base} ${pts("cum_delay_p50").join(" ")} ${x(n - 1)},${base}" fill="${COLORS.indigo}" opacity=".10"/>`;
+  s += `<polygon points="${x(0)},${base} ${pts("cum_delay_p50").join(" ")} ${x(n - 1)},${base}" fill="${COLORS.amber}" opacity=".13"/>`;
   s += `<polyline points="${pts("cum_delay_p90").join(" ")}" fill="none" stroke="${COLORS.bad}" stroke-width="2" stroke-dasharray="6 4"/>`;
-  s += `<polyline points="${pts("cum_delay_p50").join(" ")}" fill="none" stroke="${COLORS.indigo}" stroke-width="3"/>`;
-  // baseline
-  s += `<line x1="${x(0)}" x2="${x(n - 1)}" y1="${base}" y2="${base}" stroke="#9fb4d3" stroke-width="4" stroke-linecap="round"/>`;
+  s += `<polyline class="glow-a" points="${pts("cum_delay_p50").join(" ")}" fill="none" stroke="${COLORS.amber}" stroke-width="3"/>`;
+  // glowing rail track with sleepers
+  s += `<line class="glow-c" x1="${x(0)}" x2="${x(n - 1)}" y1="${base}" y2="${base}" stroke="${COLORS.cyan}" stroke-width="4" stroke-linecap="round"/>`;
+  s += `<line x1="${x(0)}" x2="${x(n - 1)}" y1="${base}" y2="${base}" stroke="${COLORS.panel}" stroke-width="1.5" stroke-dasharray="2 7"/>`;
   st.forEach((q, i) => {
     const cx = x(i), lvl = stressLevel(q, wl), isBn = r.corridor.bottleneck.index === i;
     const w = q.weather;
-    // weather badge
     const vcol = COLORS[visLevel(w && w.visibility_km)] || COLORS.muted;
     s += `<g class="station" data-i="${i}">`;
-    s += `<rect x="${cx - bw / 2}" y="10" width="${bw}" height="78" rx="6" fill="#fff" stroke="${vcol}" stroke-width="1.5"/>`;
+    s += `<rect x="${cx - bw / 2}" y="10" width="${bw}" height="78" rx="8" fill="#131A26" stroke="${vcol}" stroke-width="1.5"/>`;
     if (w) {
-      s += `<text x="${cx}" y="29" text-anchor="middle" font-size="12" font-weight="600" class="mono-t">${w.temp_c ?? "–"}°C</text>`;
-      s += `<text x="${cx}" y="46" text-anchor="middle" font-size="11" class="mono-t" fill="#33445c">${w.precip_mm ?? 0} mm</text>`;
+      s += weatherIcon(w.weather_code, cx + bw / 2 - 16, 24);
+      s += `<text x="${cx - 6}" y="29" text-anchor="middle" font-size="12" font-weight="700" class="mono-t">${w.temp_c ?? "–"}°C</text>`;
+      s += `<text x="${cx}" y="46" text-anchor="middle" font-size="11" class="mono-t" fill="#cbd5e1">${w.precip_mm ?? 0} mm</text>`;
       s += `<text x="${cx}" y="62" text-anchor="middle" font-size="11" class="mono-t" fill="${vcol}">vis ${w.visibility_km ?? "–"} km</text>`;
       s += `<text x="${cx}" y="78" text-anchor="middle" font-size="10" fill="${COLORS.muted}">wind ${w.wind_kmh ?? "–"} km/h</text>`;
     } else {
       s += `<text x="${cx}" y="52" text-anchor="middle" font-size="11" fill="${COLORS.muted}">no telemetry</text>`;
     }
     s += `<line x1="${cx}" x2="${cx}" y1="88" y2="${base}" stroke="${COLORS.line}" stroke-dasharray="2 4"/>`;
-    // curve dot + delay label
-    s += `<circle cx="${cx}" cy="${y(q.cum_delay_p50)}" r="4" fill="${COLORS.indigo}"/>`;
-    s += `<text x="${cx}" y="${y(q.cum_delay_p50) - 9}" text-anchor="middle" font-size="11" font-weight="600" class="mono-t" fill="${COLORS.indigo}">+${Math.round(q.cum_delay_p50)}</text>`;
-    // node
+    s += `<circle cx="${cx}" cy="${y(q.cum_delay_p50)}" r="4" fill="${COLORS.amber}"/>`;
+    s += `<text x="${cx}" y="${y(q.cum_delay_p50) - 9}" text-anchor="middle" font-size="11" font-weight="700" class="mono-t" fill="${COLORS.amber}">+${Math.round(q.cum_delay_p50)}</text>`;
     if (q.hotspot) s += `<circle cx="${cx}" cy="${base}" r="13" fill="none" stroke="${COLORS.warn}" stroke-width="2" stroke-dasharray="3 3"/>`;
-    if (isBn) s += `<circle cx="${cx}" cy="${base}" r="16" fill="none" stroke="${COLORS.bad}" stroke-width="2.5"/>`;
-    s += `<circle class="node" cx="${cx}" cy="${base}" r="8" fill="${COLORS[lvl]}" stroke="#fff" stroke-width="3"/>`;
-    // labels
+    if (isBn) s += `<circle class="glow-a" cx="${cx}" cy="${base}" r="17" fill="none" stroke="${COLORS.bad}" stroke-width="2.5"/>`;
+    s += `<circle class="node" cx="${cx}" cy="${base}" r="8" fill="${COLORS[lvl]}" stroke="${COLORS.panel}" stroke-width="3"/>`;
     const name = q.name.length > 18 ? q.name.slice(0, 17) + "…" : q.name;
     s += `<text x="${cx}" y="338" text-anchor="middle" font-size="11" font-weight="600">${esc(name)}</text>`;
     s += `<text x="${cx}" y="353" text-anchor="middle" font-size="10.5" class="mono-t" fill="${COLORS.muted}">${q.km} km</text>`;
@@ -81,12 +92,19 @@ export function bufferCurve(r) {
   s += `<text x="${(L + W - R) / 2}" y="${H - 6}" text-anchor="middle" font-size="11" fill="${COLORS.muted}">Buffer between scheduled arrival and onward departure (min)</text>`;
   s += `<line x1="${L}" x2="${W - R}" y1="${y(m.target_confidence_pct / 100)}" y2="${y(m.target_confidence_pct / 100)}" stroke="${COLORS.ok}" stroke-dasharray="4 4"/>`;
   s += `<text x="${W - R}" y="${y(m.target_confidence_pct / 100) + 14}" text-anchor="end" font-size="10.5" fill="${COLORS.ok}">target ${m.target_confidence_pct}%</text>`;
-  s += `<polyline fill="none" stroke="${COLORS.indigo}" stroke-width="3" points="${c.map((q) => `${x(q.buffer).toFixed(1)},${y(q.p_make).toFixed(1)}`).join(" ")}"/>`;
+  s += `<polyline class="glow-c" fill="none" stroke="${COLORS.cyan}" stroke-width="3" points="${c.map((q) => `${x(q.buffer).toFixed(1)},${y(q.p_make).toFixed(1)}`).join(" ")}"/>`;
   const mark = (b, col, label, dy) => {
     const bb = Math.min(b, 420);
     return `<line x1="${x(bb)}" x2="${x(bb)}" y1="${T}" y2="${H - B}" stroke="${col}" stroke-width="2"/><text x="${x(bb) + 5}" y="${T + dy}" font-size="11" font-weight="700" fill="${col}">${label}</text>`;
   };
-  s += mark(m.planned_buffer_min, COLORS.indigo, `planned ${m.planned_buffer_min}`, 12);
+  s += mark(m.planned_buffer_min, COLORS.amber, `planned ${m.planned_buffer_min}`, 12);
   s += mark(m.recommended_buffer_min, COLORS.ok, `safe ${m.recommended_buffer_min}`, 28);
   return s + "</svg>";
+}
+
+// Circular on-time reliability gauge.
+export function gauge(pct, level) {
+  const R = 26, C = 2 * Math.PI * R, col = COLORS[level] || COLORS.cyan, off = C * (1 - Math.max(0, Math.min(100, pct)) / 100);
+  return `<svg viewBox="0 0 64 64" role="img" aria-label="On-time reliability ${pct} percent"><circle cx="32" cy="32" r="${R}" fill="none" stroke="#243044" stroke-width="7"/>` +
+    `<circle cx="32" cy="32" r="${R}" fill="none" stroke="${col}" stroke-width="7" stroke-linecap="round" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}" transform="rotate(-90 32 32)" style="filter:drop-shadow(0 0 4px ${col})"/></svg>`;
 }

@@ -51,12 +51,15 @@ def resolve_key():
     return None, "none"
 
 
+last_model = None  # the model that answered most recently (shown in /api/info)
+
+
 def ai_ready():
     return resolve_key()[0] is not None
 
 
 def mask(key):
-    return f"gsk_...{key[-4:]}" if key else ""
+    return f"gsk_…{key[-4:]}" if key else ""
 
 
 def _scrub(text, key):
@@ -127,7 +130,11 @@ async def chat_json(system, user, validate, max_tokens=1400):
                     break  # move on to the fallback model
                 try:
                     content = resp.json()["choices"][0]["message"]["content"]
-                    return validate(json.loads(clean_text(content))), model
+                    result = validate(json.loads(clean_text(content)))
+                    global last_model
+                    last_model = model
+                    log.info("Groq answered with %s", model)
+                    return result, model
                 except Exception as exc:
                     log.warning("Groq %s gave unusable output: %s", model, _scrub(exc, key))
                     last_busy = False

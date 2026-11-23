@@ -43,7 +43,7 @@ function setView(view) {
   $("fieldB").hidden = view !== "compare";
   $("queryB").required = view === "compare";
   $("labelA").textContent = view === "compare" ? "Option A: train number / name or corridor" : "Train number / name or route corridor";
-  $("runBtn").textContent = view === "compare" ? "Compare reliability live" : view === "buffer" ? "Plan my buffer live" : "Run live analysis";
+  $("runBtn").textContent = view === "compare" ? "Run Train Duel" : view === "buffer" ? "Compute Buffer Matrix" : "Analyze Corridor Reliability";
   renderCanvas();
 }
 
@@ -124,8 +124,9 @@ async function run(ev) {
 async function loadSamples() {
   try {
     const { samples } = await api("api/samples");
-    $("samples").innerHTML = samples.map((s) => `<button type="button" class="sample ${s.id.startsWith("invalid") ? "reject" : /control/i.test(s.input_text) ? "control" : ""}" data-id="${esc(s.id)}">
-      <b>${esc(s.title)}</b><small>${esc(s.blurb || "")}</small><div class="tag">${esc(s.connection_type)} · ${s.planned_buffer_min} min${s.has_saved_result ? " · saved result" : ""}</div></button>`).join("");
+    const label = (s) => (s.id.startsWith("invalid") ? s.input_text : s.title).replace(/\s*\(.*$/, "");
+    $("samples").innerHTML = samples.map((s) => `<button type="button" class="sample ${s.id.startsWith("invalid") ? "reject" : /control/i.test(s.input_text) ? "control" : ""}" data-id="${esc(s.id)}" title="${esc(s.blurb || "")}">
+      <b>${esc(label(s))}</b><span class="tag">${s.planned_buffer_min} min${s.has_saved_result ? " · saved" : ""}</span></button>`).join("");
     $("samples").querySelectorAll(".sample").forEach((b) => b.addEventListener("click", () => openSample(b.dataset.id, b)));
   } catch (e) {
     $("samples").textContent = e.message;
@@ -146,7 +147,7 @@ async function openSample(id, btn) {
       if (state.view === "compare") setView("predict");
       state.results.predict = s.result;
       const when = (s.result.generated_at || "").replace("T", " ").replace("Z", " UTC");
-      state.banner = s.result.kind === "rejection" ? `Saved rejection recorded ${esc(when)}. Press <b>Run live analysis</b> to watch the validator reject it again.` : `Saved result recorded ${esc(when)}. Press <b>Run live analysis</b> for fresh telemetry.`;
+      state.banner = s.result.kind === "rejection" ? `Saved rejection recorded ${esc(when)}. Press <b>Analyze Corridor Reliability</b> to watch the validator reject it again.` : `Saved result recorded ${esc(when)}. Press <b>Analyze Corridor Reliability</b> for fresh telemetry.`;
       renderCanvas();
     }
   } catch (e) {

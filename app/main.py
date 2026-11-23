@@ -76,7 +76,7 @@ async def api_info(request: Request):
     return {
         "name": config.PROJECT_NAME, "slug": config.PROJECT_SLUG, "number": config.PROJECT_NUMBER, "version": config.VERSION,
         "mode": "demo" if config.DEMO_MODE else "local",
-        "ai": {"provider": "groq", "ready": key is not None, "model": config.GROQ_MODEL},
+        "ai": {"provider": "groq", "ready": key is not None, "model": ai_groq.last_model or config.GROQ_MODEL},
         "limits": {"max_upload_mb": config.DEMO_MAX_UPLOAD_MB if config.DEMO_MODE else config.MAX_UPLOAD_MB,
                    "hourly_runs": config.HOURLY_RUNS, "runs_left": runs_left},
         "demo": demo,

@@ -1,6 +1,8 @@
 .env
 .venv/
 venv/
+node_modules/
+dist/
 __pycache__/
 *.pyc
 data/
@@ -9,4 +11,9 @@ data/
 *.sqlite3
 *-wal
 *-shm
+*.log
+uploads/
 .DS_Store
+.idea/
+.vscode/
+lastsem-architecture/

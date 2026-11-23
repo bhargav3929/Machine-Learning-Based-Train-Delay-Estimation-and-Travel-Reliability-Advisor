@@ -21,12 +21,12 @@ Click **API Keys** in the app and paste your key (it starts with `gsk_`). It is 
 
 ## 4. How to use it
 
-1. Click a **sample corridor chip** under the dispatch bar (for example *12301 Howrah - New Delhi Rajdhani Express*). Its saved result appears instantly and nothing is used up. The Mumbai - Ahmedabad Shatabdi chip is a punctuality control: you should see a high on-time score and a small delay. The *99999 Starship Express* chip shows how a train that doesn't exist is rejected with a clear message and no invented numbers.
-2. Press **Analyze Corridor Reliability** to get fresh weather and a fresh Groq plan. The **execution tracker** shows the four stages as they finish.
+1. Click a **sample slip** on the left (for example *12301 Howrah - New Delhi Rajdhani Express*). Its saved result appears instantly and nothing is used up. The Mumbai - Ahmedabad Shatabdi slip is a punctuality control: you should see a high on-time score and a small delay. The *99999 Starship Express* slip shows how a train that doesn't exist is rejected with a clear message and no invented numbers.
+2. Press **Estimate Corridor Delay** to get fresh weather and a fresh Groq plan. The **execution tracker** shows the four stages as they finish.
 3. Type your own train number, train name, or corridor such as `Patna -> Lucknow`. Pick the travel date, the connection type (flight, onward train, exam or event, or plain travel) and your planned buffer in minutes.
-4. Read the **departure board** and its four signal tiles: on-time score, median delay, 90th-percentile delay and the safe buffer with a Safe / Tight / Risky verdict against your plan.
+4. Read the **four KPI cells**: on-time score, median delay, 90th-percentile delay and the safe buffer with a Safe / Tight / Risky verdict against your plan.
 5. Hover a station in the **timeline** to see its weather and the delay built up so far. Open **Telemetry & ML Verification Audit** to see the exact coordinates, weather values and formula inputs.
-6. Use the **Train vs. Train Duel** tab to compare two options, and the **Connection Buffer Matrix** tab to see your chance of making the connection for any buffer.
+6. Use the **Train vs. Train Compare** tab to compare two options, and the **Buffer Calculator** tab to see your chance of making the connection for any buffer.
 7. The **History** button lists your earlier runs. You get 15 live runs per hour; a run that fails (unknown station, AI busy) does not use one up.
 
 ## 5. How it works

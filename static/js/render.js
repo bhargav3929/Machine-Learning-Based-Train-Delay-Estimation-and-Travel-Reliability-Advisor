@@ -38,15 +38,10 @@ function clocks(r) {
 // Split-flap departure board: train number, route, status pill, four signal tiles, arrival clocks.
 function board(r) {
   const c = r.corridor, st = c.stations, m = r.metrics, b = BOARD[m.verdict];
-  const num = c.train ? String(c.train.number) : "ROUTE";
-  const flaps = [...num].map((ch) => `<span class="flap">${esc(ch)}</span>`).join("");
-  const name = c.train ? c.train.name : `${st[0].name} → ${st[st.length - 1].name}`;
-  return `<section class="board" aria-label="Departure and arrival delay board">
-    <div class="board-head">
-      <div class="board-train"><span class="flaps" aria-label="Train ${esc(num)}">${flaps}</span>
-        <div class="board-route"><b>${esc(name)}</b><small>${esc(st[0].name)} → ${esc(st[st.length - 1].name)} · ${c.distance_km} km · ${esc(r.input.travel_date)} · ${esc(r.input.connection_type)}</small></div></div>
-      <span class="status ${b[0]}">${b[1]}</span>
-    </div>${tiles(r)}${clocks(r)}</section>`;
+  const name = c.train ? `${c.train.number} ${c.train.name}` : `${st[0].name} → ${st[st.length - 1].name}`;
+  const sched = clocks(r);
+  return `<div class="head"><div><h2>${esc(name)}</h2><div class="meta mono">${esc(st[0].name)} → ${esc(st[st.length - 1].name)} · ${c.distance_km} km · ${esc(r.input.travel_date)} · ${esc(r.input.connection_type)}</div></div>
+      <span class="stubbadge ${b[0]}">${b[1]}</span></div>${tiles(r)}${sched ? `<div class="card parch">${sched}</div>` : ""}`;
 }
 
 function timelineCard(r, heading) {
@@ -54,7 +49,7 @@ function timelineCard(r, heading) {
   return `<div class="card"><h3>${heading || "Corridor route track &amp; delay build-up"}</h3>
     <div class="svgwrap">${timeline(r)}</div>
     <div class="stinfo" data-stinfo>Hover or tap a station. Bottleneck junction: <b>${esc(bn.name)}</b> (congestion ${Math.round(bn.congestion * 100)}%).</div>
-    <div class="legend"><span><i style="background:#F59E0B"></i>Median (P50) delay build-up</span><span><i style="background:#EF4444"></i>Worst-case (P90)</span><span><i style="background:#06B6D4"></i>Rail track</span><span>Badge border: fog/visibility risk</span><span>Dashed ring: congestion hotspot</span></div>
+    <div class="legend"><span><i style="background:#E9C58E"></i>Median (P50) delay bars</span><span><i style="background:#B91C1C"></i>Worst-case (P90) ticks</span><span><i style="background:#8B261D"></i>Sleepers / track</span><span>Badge border: fog/visibility risk</span><span>Dashed ring: congestion hotspot</span></div>
     <div class="tagline">Weather: ${esc(r.weather.basis)}</div></div>`;
 }
 
@@ -62,19 +57,19 @@ function factors(r) {
   const max = Math.max(...r.factors.map((f) => Math.abs(f.minutes)), 1);
   return `<div class="card"><h3>ML feature attribution</h3><div class="bars">${r.factors.map((f) => {
     const neg = f.minutes < 0;
-    const col = neg ? "#10B981" : f.share_pct >= 30 ? "#EF4444" : f.share_pct >= 12 ? "#F59E0B" : "#06B6D4";
-    return `<div class="bar"><span>${esc(f.label)}</span><span class="val">${neg ? "−" : "+"}${Math.abs(f.minutes)} min · ${f.share_pct}%</span><div class="track"><div class="fill" style="width:${Math.max((Math.abs(f.minutes) / max) * 100, 1.5)}%;background:${col};color:${col}"></div></div></div>`;
+    const col = neg ? "#15803D" : f.share_pct >= 30 ? "#B91C1C" : f.share_pct >= 12 ? "#B45309" : "#8B261D";
+    return `<div class="bar"><span>${esc(f.label)}</span><span class="val">${neg ? "−" : "+"}${Math.abs(f.minutes)} min · ${f.share_pct}%</span><div class="track"><div class="fill" style="width:${Math.max((Math.abs(f.minutes) / max) * 100, 1.5)}%;background:${col}"></div></div></div>`;
   }).join("")}</div><div class="tagline">Shares add up to 100% of the median delay. A green bar means that factor shields the journey from delay.</div></div>`;
 }
 
 function advisoryCards(r) {
   const a = r.advisory, m = r.metrics, v = VERDICT[m.verdict];
   const src = a.source === "groq" ? `Groq · ${esc(a.model)}` : "Rule-based baseline (no AI call)";
-  return [
-    `<div class="card adv-buffer"><h3>Recommended safe buffer</h3><div class="pair"><span class="big">${m.recommended_buffer_min} min</span><span class="chip ${v[0]}">${v[1]}</span><span class="muted">vs <b class="num">${m.planned_buffer_min} min</b> planned</span></div><p>${esc(a.buffer_recommendation)}</p><div class="tagline">${src}</div></div>`,
-    `<div class="card"><h3>Alternative train / departure advice</h3><ul>${a.backup_strategy.map((b) => `<li>${esc(b)}</li>`).join("")}</ul></div>`,
-    `<div class="card"><h3>Route risk notes</h3><p>${esc(a.summary)}</p>${a.watch_items && a.watch_items.length ? `<ul style="margin-top:8px">${a.watch_items.map((w) => `<li>${esc(w)}</li>`).join("")}</ul>` : ""}</div>`,
-  ].join("");
+  return {
+    buffer: `<div class="card adv-buffer"><h3>Recommended safe buffer</h3><div class="pair"><span class="big">${m.recommended_buffer_min} min</span><span class="chip ${v[0]}">${v[1]}</span><span class="muted">vs <b class="num">${m.planned_buffer_min} min</b> planned</span></div><p>${esc(a.buffer_recommendation)}</p><div class="tagline">${src}</div></div>`,
+    backup: `<div class="card"><h3>Alternative train / departure advice</h3><ul>${a.backup_strategy.map((b) => `<li>${esc(b)}</li>`).join("")}</ul></div>`,
+    risk: `<div class="card"><h3>Route risk notes</h3><p>${esc(a.summary)}</p>${a.watch_items && a.watch_items.length ? `<ul style="margin-top:8px">${a.watch_items.map((w) => `<li>${esc(w)}</li>`).join("")}</ul>` : ""}</div>`,
+  };
 }
 
 const WMO = (c) => (c == null ? "n/a" : c === 0 ? "clear" : c <= 3 ? "partly/overcast" : c === 45 || c === 48 ? "fog" : c < 60 ? "drizzle" : c < 70 ? "rain" : c < 80 ? "snow" : c < 90 ? "showers" : "thunderstorm");
@@ -119,21 +114,20 @@ function bufferCard(r) {
 }
 
 export function rejectionHtml(r) {
-  const flaps = [..."NOT FOUND"].map((ch) => `<span class="flap">${ch === " " ? "&nbsp;" : ch}</span>`).join("");
-  return `<section class="board"><div class="board-head"><div class="board-train"><span class="flaps">${flaps}</span>
-      <div class="board-route"><b>Rejected: ${esc(r.input.query)}</b><small>HTTP ${r.http_status} ${esc(r.code)}</small></div></div><span class="status bad">REJECTED</span></div></section>
-    <div class="card" style="border-left:4px solid #EF4444;margin-top:14px"><h3>The validator refused this input</h3>
+  return `<div class="sheet"><div class="head"><div><h2>Rejected: ${esc(r.input.query)}</h2><div class="meta mono">HTTP ${r.http_status} ${esc(r.code)}</div></div><span class="stubbadge bad">REJECTED</span></div>
+    <div class="card" style="border-left:8px solid #B91C1C"><h3>The validator refused this input</h3>
       <p><b>${esc(r.error)}</b></p>
       <p class="muted" style="margin-top:10px">No delay numbers were produced, the weather and AI were never called, and this attempt did not use any of your 15 hourly runs.</p>
       <pre class="f" style="margin-top:10px">POST api/predict  ->  ${r.http_status}
 {"error": "${esc(r.error)}",
- "code": "${esc(r.code)}"}</pre></div>`;
+ "code": "${esc(r.code)}"}</pre></div></div>`;
 }
 
 export function predictHtml(r, view) {
   if (r.kind === "rejection") return rejectionHtml(r);
-  const mainCol = view === "buffer" ? board(r) + bufferCard(r) + audit(r, false) : board(r) + timelineCard(r) + audit(r, false);
-  return `<div class="grid"><div class="main">${mainCol}</div><div class="side">${factors(r)}${advisoryCards(r)}</div></div>`;
+  const adv = advisoryCards(r);
+  const lead = view === "buffer" ? bufferCard(r) : timelineCard(r);
+  return `<div class="sheet">${board(r)}${lead}<div class="two">${factors(r)}${adv.buffer}</div><div class="two">${adv.backup}${adv.risk}</div>${audit(r, false)}</div>`;
 }
 
 export function compareHtml(c) {
@@ -151,8 +145,8 @@ export function compareHtml(c) {
   const d = (n, unit) => (n === 0 ? "equal" : `${n > 0 ? "+" : "−"}${Math.abs(n)}${unit}`);
   const pick = adv.pick && adv.pick !== "either" ? `Groq pick: Option ${adv.pick}` : "Groq pick: either option";
   const lead = k.more_reliable === "A" || k.more_reliable === "B";
-  return `<div class="stack"><section class="board"><div class="board-head"><div class="board-route"><b>Train vs. train duel</b><small>${esc(a.input.travel_date)} · ${esc(a.input.connection_type)}${k.same_corridor ? "" : " · different corridors"}</small></div>
-      <span class="status ${lead ? "ok" : "warn"}">${lead ? `OPTION ${esc(k.more_reliable)} LEADS` : "TOO CLOSE TO CALL"}</span></div></section>
+  return `<div class="sheet"><div class="head"><div><h2>Train vs. train compare</h2><div class="meta mono">${esc(a.input.travel_date)} · ${esc(a.input.connection_type)}${k.same_corridor ? "" : " · different corridors"}</div></div>
+      <span class="stubbadge ${lead ? "ok" : "warn"}">${lead ? `OPTION ${esc(k.more_reliable)} LEADS` : "TOO CLOSE TO CALL"}</span></div>
     <div class="cmp">${col(a, "A")}${col(b, "B")}</div>
     <div class="card"><h3>Difference (A minus B)</h3><table style="max-width:520px"><tbody>
       <tr><td>On-time reliability</td><td class="num">${d(k.delta_reliability_pct, " pts")}</td></tr>
